@@ -1,22 +1,38 @@
-import eslint from "@eslint/js";
+import { defineConfig, globalIgnores } from "eslint/config";
 
-import tseslint from "typescript-eslint";
-
-export default tseslint.config(
-  eslint.configs.recommended,
-  ...tseslint.configs.recommended,
+export default defineConfig([
   {
     files: ["**/*.ts"],
     languageOptions: {
       parserOptions: {
-        project: false
-      }
+        project: false,
+      },
     },
     rules: {
-      "@typescript-eslint/no-explicit-any": "warn"
-    }
+      "@typescript-eslint/no-explicit-any": "warn",
+      eqeqeq: "error",
+      "no-console": "warn",
+      "no-debugger": "warn",
+      "no-fallthrough": "error",
+      "import/no-cycle": "error",
+      "import/order": ["warn", {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "object",
+          "type"
+        ],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }]
+    },
   },
-  {
-    ignores: ["dist/**", "node_modules/**"]
-  }
-);
+  globalIgnores(["dist/**", "node_modules/**"]),
+]);
